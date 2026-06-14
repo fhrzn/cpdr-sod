@@ -1,9 +1,12 @@
 import torch
-from src.model import CPDR_S
+from src.model import CPDR_M, CPDR_S
 
 
 def load_model(checkpoint_path: str, device: str = "cuda"):
-    model = CPDR_S()
+    if "cpdr_m" in checkpoint_path:
+        model = CPDR_M()
+    elif "cpdr_s" in checkpoint_path:
+        model = CPDR_S()
     ckpt = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(ckpt["state_dict"])
     model = model.to(device)

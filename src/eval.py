@@ -4,12 +4,12 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from src.model import CPDR_S
+from src.model import CPDR_M, CPDR_S
 from src.dataset import DUTSDataset
 from src.utils import get_device, load_model
 
 
-def evaluate(model: CPDR_S, test_loader: DataLoader, device: str):
+def evaluate(model: CPDR_S | CPDR_M, test_loader: DataLoader, device: str):
     model.eval()
     model = model.to(device)
 

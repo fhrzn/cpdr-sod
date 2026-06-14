@@ -9,7 +9,7 @@ from tqdm import tqdm
 from src.dataset import DUTSDataset
 from src.eval import main as eval_fn
 from src.loss import CPDRLoss
-from src.model import CPDR_S
+from src.model import CPDR_M, CPDR_S
 from src.utils import get_device
 
 
@@ -25,7 +25,7 @@ def make_scheduler(optimizer, warmup_epochs, total_epochs, gamma):
 
 
 def train(
-    model: CPDR_S,
+    model: CPDR_S | CPDR_M,
     train_loader: DataLoader,
     val_loader: DataLoader,
     num_epochs: int,
@@ -135,7 +135,12 @@ def main(args):
         pin_memory=True,
     )
 
-    model = CPDR_S()
+    if args.model == "cpdr_s":
+        model = CPDR_S()
+    elif args.model == "cpdr_m":
+        model = CPDR_M()
+
+    print(f"Training {model.name} variant.")
 
     train(
         model=model,
@@ -156,6 +161,7 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
+    parser.add_argument("--model")
     parser.add_argument("--train-data")
     parser.add_argument("--test-data", required=False)
     parser.add_argument("--batch-size", type=int)

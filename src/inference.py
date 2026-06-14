@@ -4,7 +4,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from src.utils import get_device, load_model
-from src.model import CPDR_S
+from src.model import CPDR_M, CPDR_S
 
 
 def preprocess(image_path, size=256):
@@ -73,7 +73,7 @@ def visualize(image_path, saliency_map, threshold=0.5, save_path=None):
 
 
 def run_inference(
-    model: CPDR_S, image_path: str, threshold=0.5, device="cuda", save_path=None
+    model: CPDR_S | CPDR_M, image_path: str, threshold=0.5, device="cuda", save_path=None
 ):
 
     model.eval()
